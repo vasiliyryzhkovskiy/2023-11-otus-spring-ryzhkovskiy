@@ -1,16 +1,28 @@
 package ru.otus.hw.config;
 
+import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 
 @Setter
-public class AppProperties implements TestConfig, TestFileNameProvider {
+@PropertySource("classpath:application.properties")
+@Configuration
+public class AppProperties implements TestConfig, TestFileNameProvider, IOConfig {
+    private int maxAttemps;
 
-    // внедрить свойство из application.properties
     private int rightAnswersCountToPass;
 
-    // внедрить свойство из application.properties
     private String testFileName;
+
+    public AppProperties(@Value("${test.max.attemps}") int maxAttemps,
+                         @Value("${test.rightAnswersCountToPass}") int rightAnswersCountToPass,
+                         @Value("${test.fileName}") String testFileName) {
+        this.maxAttemps = maxAttemps;
+        this.rightAnswersCountToPass = rightAnswersCountToPass;
+        this.testFileName = testFileName;
+    }
 
     @Override
     public int getRightAnswersCountToPass() {
@@ -20,5 +32,10 @@ public class AppProperties implements TestConfig, TestFileNameProvider {
     @Override
     public String getTestFileName() {
         return testFileName;
+    }
+
+    @Override
+    public int getMaxAttemps() {
+        return maxAttemps;
     }
 }

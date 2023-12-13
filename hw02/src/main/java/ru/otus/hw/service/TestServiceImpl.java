@@ -37,7 +37,7 @@ public class TestServiceImpl implements TestService {
             List<Answer> answerList = question.answers();
             for (var answer : answerList) {
                 ioService.printLine(" Answer # " + answerId + " " + answer.text());
-                answerId ++;
+                answerId++;
             }
             int studentAnswer = ioService.readIntForRangeWithPrompt(0, answerId - 1, "Your answer is ?", "Incorrect studentAnswer");
 

@@ -1,6 +1,5 @@
 package ru.otus.hw.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.otus.hw.dao.QuestionDao;
 import ru.otus.hw.domain.Answer;
@@ -16,7 +15,7 @@ public class TestServiceImpl implements TestService {
 
     private final QuestionDao questionDao;
 
-    public TestServiceImpl(@Autowired IOService ioService, @Autowired QuestionDao questionDao) {
+    public TestServiceImpl(IOService ioService, QuestionDao questionDao) {
         this.ioService = ioService;
         this.questionDao = questionDao;
     }
@@ -47,7 +46,8 @@ public class TestServiceImpl implements TestService {
             answerId++;
         }
 
-        int studentAnswer = ioService.readIntForRangeWithPrompt(0, answerId - 1, "Your answer is ?", "Incorrect studentAnswer");
+        int studentAnswer = ioService
+                .readIntForRangeWithPrompt(0, answerId - 1, "Your answer is ?", "Incorrect studentAnswer");
         return answerList.get(studentAnswer).isCorrect();
-    };
+    }
 }

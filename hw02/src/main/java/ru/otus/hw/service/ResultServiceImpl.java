@@ -1,6 +1,5 @@
 package ru.otus.hw.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.otus.hw.config.TestConfig;
 import ru.otus.hw.domain.TestResult;
@@ -11,7 +10,7 @@ public class ResultServiceImpl implements ResultService {
 
     private final IOService ioService;
 
-    public ResultServiceImpl(@Autowired TestConfig testConfig, @Autowired IOService ioService) {
+    public ResultServiceImpl(TestConfig testConfig, IOService ioService) {
         this.testConfig = testConfig;
         this.ioService = ioService;
     }

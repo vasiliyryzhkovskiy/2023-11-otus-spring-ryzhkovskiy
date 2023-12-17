@@ -9,10 +9,9 @@ import ru.otus.hw.dao.dto.QuestionDto;
 import ru.otus.hw.domain.Question;
 import ru.otus.hw.exceptions.QuestionReadException;
 
-import java.io.Reader;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
 
 
@@ -27,16 +26,19 @@ public class CsvQuestionDao implements QuestionDao {
     @Override
     public List<Question> findAll() {
         try {
-            Path path = Paths.get(ClassLoader.getSystemResource(fileNameProvider.getTestFileName()).toURI());
+            InputStream is = getClass().getClassLoader().getResourceAsStream(fileNameProvider.getTestFileName());
+            if (null != is) {
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
+                    CsvToBean<QuestionDto> csvToBean = new CsvToBeanBuilder<QuestionDto>(reader)
+                            .withSkipLines(1)
+                            .withSeparator(';')
+                            .withType(QuestionDto.class)
+                            .build();
 
-            try (Reader reader = Files.newBufferedReader(path)) {
-                CsvToBean<QuestionDto> csvToBean = new CsvToBeanBuilder<QuestionDto>(reader)
-                        .withSkipLines(1)
-                        .withSeparator(';')
-                        .withType(QuestionDto.class)
-                        .build();
-
-                return csvToBean.parse().stream().map(QuestionDto::toDomainObject).toList();
+                    return csvToBean.parse().stream().map(QuestionDto::toDomainObject).toList();
+                }
+            } else {
+                throw new NullPointerException("InputStream is null. Check resource file !");
             }
 
         } catch (Throwable e) {

@@ -1,14 +1,17 @@
 package ru.otus.hw;
 
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import ru.otus.hw.service.TestRunnerService;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import ru.otus.hw.config.AppProperties;
+
+
+@SpringBootApplication
 
 public class Application {
-    public static void main(String[] args) {
 
-        //Создать контекст на основе Annotation/Java конфигурирования
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext("ru.otus.hw");
-        var testRunnerService = context.getBean(TestRunnerService.class);
-        testRunnerService.run();
+    public static void main(String[] args) {
+        //Создать контекст Spring Boot приложения
+        SpringApplication.run(Application.class, args);
     }
 }

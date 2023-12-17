@@ -1,0 +1,4 @@
+test:
+  rightAnswersCountToPass: 3
+  testFileName: "questions.csv"
+  maxAttemps: 10

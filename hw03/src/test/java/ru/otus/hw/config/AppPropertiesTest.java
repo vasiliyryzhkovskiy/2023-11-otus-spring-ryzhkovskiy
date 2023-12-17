@@ -16,6 +16,7 @@ class AppPropertiesTest {
 
     @BeforeEach
     void setUp() {
+//        testConfig = new AppProperties();
         testConfig = new AppProperties(1, INIT_COUNT, "filename");
     }
 

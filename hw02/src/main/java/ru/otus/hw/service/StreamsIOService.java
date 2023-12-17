@@ -1,6 +1,5 @@
 package ru.otus.hw.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.otus.hw.config.IOConfig;
@@ -18,7 +17,7 @@ public class StreamsIOService implements IOService {
 
     private final Scanner scanner;
 
-    public StreamsIOService(@Autowired IOConfig ioConfig,
+    public StreamsIOService(IOConfig ioConfig,
                             @Value("#{T(System).out}") PrintStream printStream,
                             @Value("#{T(System).in}") InputStream inputStream) {
         this.ioConfig = ioConfig;

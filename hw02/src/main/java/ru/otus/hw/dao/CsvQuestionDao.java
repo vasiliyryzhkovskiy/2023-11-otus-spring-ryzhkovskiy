@@ -2,7 +2,6 @@ package ru.otus.hw.dao;
 
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.otus.hw.config.TestFileNameProvider;
 import ru.otus.hw.dao.dto.QuestionDto;
@@ -19,7 +18,7 @@ import java.util.List;
 public class CsvQuestionDao implements QuestionDao {
     private final TestFileNameProvider fileNameProvider;
 
-    public CsvQuestionDao(@Autowired TestFileNameProvider fileNameProvider) {
+    public CsvQuestionDao(TestFileNameProvider fileNameProvider) {
         this.fileNameProvider = fileNameProvider;
     }
 

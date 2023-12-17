@@ -1,4 +1,4 @@
-package ru.otus.hw.exceptions;
+package ru.otus.hw.dao;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,23 +9,26 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.otus.hw.config.TestFileNameProvider;
-import ru.otus.hw.dao.CsvQuestionDao;
-
+import ru.otus.hw.exceptions.QuestionReadException;
 
 @ExtendWith(MockitoExtension.class)
-class GetQuestionReadExceptionTest {
+class CsvQuestionDaoTest {
 
     @Mock
     private TestFileNameProvider fileNameProvider;
 
-    @BeforeEach
-    void setUp() {
-        Mockito.when(fileNameProvider.getTestFileName()).thenReturn("null.csv");
+    @Test
+    @DisplayName("Check method FindAll")
+    void findAll() {
+        Mockito.when(fileNameProvider.getTestFileName()).thenReturn("questions.csv");
+        CsvQuestionDao dao = new CsvQuestionDao(fileNameProvider);
+        Assertions.assertNotNull(dao.findAll());
     }
 
     @Test
     @DisplayName("Get QuestionReadException")
-    void findAll() {
+    void getQuestionReadException() {
+        Mockito.when(fileNameProvider.getTestFileName()).thenReturn("null.csv");
         CsvQuestionDao dao = new CsvQuestionDao(fileNameProvider);
         Assertions.assertThrowsExactly(QuestionReadException.class, dao::findAll);
     }

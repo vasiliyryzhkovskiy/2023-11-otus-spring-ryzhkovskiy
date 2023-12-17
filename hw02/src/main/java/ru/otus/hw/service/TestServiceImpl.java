@@ -36,8 +36,6 @@ public class TestServiceImpl implements TestService {
 
     /** Задать вопрос, получить ответ */
     private boolean getStatusStudentAnswer(Question question) {
-        var isAnswerValid = false;
-
         ioService.printLine("");
         ioService.printLine(question.text());
         ioService.printLine("");

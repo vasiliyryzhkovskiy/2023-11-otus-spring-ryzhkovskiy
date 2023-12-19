@@ -8,15 +8,14 @@ import org.junit.jupiter.api.Test;
 
 @Log
 class AppPropertiesTest {
+    private static final int INIT_COUNT = 2;
 
-    private final int INIT_COUNT = 2;
-    private final int CHECK_COUNT = 3;
+    private static final int CHECK_COUNT = 3;
 
-    TestConfig testConfig;
+    private TestConfig testConfig;
 
     @BeforeEach
     void setUp() {
-//        testConfig = new AppProperties();
         testConfig = new AppProperties(1, INIT_COUNT, "filename");
     }
 

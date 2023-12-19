@@ -33,7 +33,9 @@ public class TestServiceImpl implements TestService {
         return testResult;
     }
 
-    /** Задать вопрос, получить ответ */
+    /**
+     * Задать вопрос, получить ответ
+     */
     private boolean getStatusStudentAnswer(Question question) {
         ioService.printLine("");
         ioService.printLine(question.text());

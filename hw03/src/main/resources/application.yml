@@ -1,3 +1,9 @@
+
+spring:
+  application:
+    title: otus-homework
+    version: hw03
+
 test:
   rightAnswersCountToPass: 3
   testFileName: "questions.csv"

@@ -9,10 +9,10 @@ import org.junit.jupiter.api.Test;
 @Log
 class AppPropertiesTest {
 
-    private final int INIT_COUNT = 2;
-    private final int CHECK_COUNT = 3;
+    private static final int INIT_COUNT = 2;
+    private static final int CHECK_COUNT = 3;
 
-    TestConfig testConfig;
+    private TestConfig testConfig;
 
     @BeforeEach
     void setUp() {

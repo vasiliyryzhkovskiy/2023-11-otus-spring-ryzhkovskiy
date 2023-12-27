@@ -1,10 +1,19 @@
-
 spring:
   application:
     title: otus-homework
     version: hw03
+  messages:
+    baseName: "message"
+    encoding: "UTF-8"
+    # Не дает свалиться в системную локаль если не найден файл для переданной в MessageSource
+    # Если false то будут браться сообщения из дефолтного файла, если true, то из файла соответствующего системной локали
+    fallbackToSystemLocale: false
 
 test:
-  rightAnswersCountToPass: 3
-  testFileName: "questions.csv"
   maxAttemps: 10
+  rightAnswersCountToPass: 3
+  #  locale: en_US
+  locale: ru_RU
+  fileNameByLocaleTag:
+    ru_RU: questions_ru.csv
+    en_US: questions.csv

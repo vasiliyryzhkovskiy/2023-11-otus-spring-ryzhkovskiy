@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import ru.otus.hw.domain.TestMaxAttemps;
+import ru.otus.hw.domain.TestRightAnswersCountToPass;
 
 @Configuration
 @EnableConfigurationProperties(AppProperties.class)
@@ -15,13 +17,7 @@ public class ApplicationConfig {
     }
 
     @Bean
-    public TestFileName testFileName(@Value("${test.testFileName}") String fileName) {
-        return new TestFileName(fileName);
-    }
-
-    @Bean
     public TestMaxAttemps testMaxAttemps(@Value("${test.maxAttemps}") int maxAttemps) {
         return new TestMaxAttemps(maxAttemps);
     }
-
 }

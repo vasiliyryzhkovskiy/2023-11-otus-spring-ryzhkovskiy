@@ -6,6 +6,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.Locale;
+import java.util.Map;
+
 @Log
 class AppPropertiesTest {
     private static final int INIT_COUNT = 2;
@@ -16,7 +19,7 @@ class AppPropertiesTest {
 
     @BeforeEach
     void setUp() {
-        testConfig = new AppProperties(1, INIT_COUNT, "filename");
+        testConfig = new AppProperties(1, INIT_COUNT, Locale.ENGLISH, Map.of(Locale.ENGLISH, "questions.csv"));
     }
 
     @Test

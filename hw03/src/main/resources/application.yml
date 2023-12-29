@@ -12,7 +12,7 @@ spring:
 test:
   maxAttemps: 10
   rightAnswersCountToPass: 3
-  #  locale: en_US
+#  locale: en_US
   locale: ru_RU
   fileNameByLocaleTag:
     ru_RU: questions_ru.csv

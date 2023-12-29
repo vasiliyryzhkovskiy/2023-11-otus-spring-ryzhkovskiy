@@ -1,7 +1,6 @@
 package ru.otus.hw.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.bind.ConstructorBinding;
 
 import java.util.Locale;
 import java.util.Map;
@@ -16,8 +15,6 @@ public class AppProperties implements TestConfig, TestFileNameProvider, IOConfig
 
     private final Map<Locale, String> fileNameByLocaleTag;
 
-
-    @ConstructorBinding
     public AppProperties(int maxAttemps,
                          int rightAnswersCountToPass,
                          Locale locale,
@@ -28,10 +25,6 @@ public class AppProperties implements TestConfig, TestFileNameProvider, IOConfig
         this.fileNameByLocaleTag = fileNameByLocaleTag;
     }
 
-    public Map<Locale, String> getFileNameByLocaleTag() {
-        return fileNameByLocaleTag;
-    }
-
     @Override
     public int getRightAnswersCountToPass() {
         return rightAnswersCountToPass;
@@ -39,7 +32,7 @@ public class AppProperties implements TestConfig, TestFileNameProvider, IOConfig
 
     @Override
     public String getTestFileName() {
-        return getFileNameByLocaleTag().get(getLocale());
+        return fileNameByLocaleTag.get(getLocale());
     }
 
     @Override

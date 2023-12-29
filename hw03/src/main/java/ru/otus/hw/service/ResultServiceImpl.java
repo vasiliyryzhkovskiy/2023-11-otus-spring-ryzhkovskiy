@@ -31,9 +31,6 @@ public class ResultServiceImpl implements ResultService {
         ioService.printFormattedLineLocalized("ResultService.right.answers.count",
                 new Integer[]{testResult.getRightAnswersCount()});
 
-//sdfdfsdf
-
-
         if (testResult.getRightAnswersCount() >= testConfig.getRightAnswersCountToPass()) {
             ioService.printLineLocalized("ResultService.passed.test");
             return;

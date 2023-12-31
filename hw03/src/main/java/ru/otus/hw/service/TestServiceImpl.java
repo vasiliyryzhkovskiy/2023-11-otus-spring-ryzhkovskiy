@@ -46,8 +46,7 @@ public class TestServiceImpl implements TestService {
         int answerId = 0;
         List<Answer> answerList = question.answers();
         for (var answer : answerList) {
-            ioService.printFormattedLineLocalized("TestService.answer",
-                    new String[]{"# %s %s".formatted(answerId, answer.text())});
+            ioService.printFormattedLineLocalized("TestService.answer", answerId, answer.text());
             answerId++;
         }
         int studentAnswer = ioService

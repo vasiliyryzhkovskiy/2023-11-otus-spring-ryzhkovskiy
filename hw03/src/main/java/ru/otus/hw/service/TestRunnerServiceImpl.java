@@ -1,10 +1,9 @@
 package ru.otus.hw.service;
 
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TestRunnerServiceImpl implements CommandLineRunner {
+public class TestRunnerServiceImpl implements TestRunnerService {
     private final TestService testService;
 
     private final StudentService studentService;
@@ -18,7 +17,7 @@ public class TestRunnerServiceImpl implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run() {
         var student = studentService.determineCurrentStudent();
         var testResult = testService.executeTestFor(student);
         resultService.showResult(testResult);

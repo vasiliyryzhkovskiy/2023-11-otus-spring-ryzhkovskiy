@@ -19,7 +19,7 @@ import static org.mockito.BDDMockito.given;
 @Execution(ExecutionMode.CONCURRENT)
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest(classes = StudentServiceImpl.class)
-public class StudentServiceTest {
+public class StudentServiceIONullTest {
     @MockBean
     private LocalizedIOService ioService;
 
@@ -28,27 +28,16 @@ public class StudentServiceTest {
 
     @BeforeEach
     void setUp() {
-        given(ioService.readStringWithPromptLocalized(ArgumentMatchers.eq("StudentService.input.first.name"))).willReturn("VASYA");
-        given(ioService.readStringWithPromptLocalized(ArgumentMatchers.eq("StudentService.input.last.name"))).willReturn("PUPKIN");
+        given(ioService.readStringWithPromptLocalized(ArgumentMatchers.eq("StudentService.input.first.name"))).willReturn(null);
+        given(ioService.readStringWithPromptLocalized(ArgumentMatchers.eq("StudentService.input.last.name"))).willReturn(null);
     }
 
     @Test
-    @DisplayName("[Positive Test] Check for Not Null")
-    void nuNullTest() {
-        Assertions.assertNotNull(studentService.determineCurrentStudent());
-    }
-
-    @Test
-    @DisplayName("[Positive Test] Check method determineCurrentStudent")
+    @DisplayName("[Positive Test] Check method determineCurrentStudent with null values from ioService")
     void positiveTest() {
-        Student expectedStudent = new Student("VASYA", "PUPKIN");
-        Assertions.assertEquals(expectedStudent, studentService.determineCurrentStudent());
-    }
-
-    @Test
-    @DisplayName("[Negative Test] Check method determineCurrentStudent")
-    void negativeTest() {
-        Student expectedStudent = new Student("SANYA", "PUPKIN");
-        Assertions.assertNotEquals(expectedStudent, studentService.determineCurrentStudent());
+        Student expectedStudent = new Student(null, null);
+        Student actual = studentService.determineCurrentStudent();
+        Assertions.assertNotNull(actual);
+        Assertions.assertEquals(expectedStudent, actual);
     }
 }

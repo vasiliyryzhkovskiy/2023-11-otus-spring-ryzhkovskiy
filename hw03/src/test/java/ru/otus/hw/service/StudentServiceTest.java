@@ -1,7 +1,6 @@
 package ru.otus.hw.service;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
@@ -20,17 +19,12 @@ public class StudentServiceTest {
     @Autowired
     private StudentService studentService;
 
-    @BeforeEach
-    void setUp() {
-        given(ioService.readStringWithPromptLocalized(ArgumentMatchers.eq("StudentService.input.first.name"))).willReturn("VASYA");
-        given(ioService.readStringWithPromptLocalized(ArgumentMatchers.eq("StudentService.input.last.name"))).willReturn("PUPKIN");
-    }
-
     @Test
     @DisplayName("[Positive Test] Check for Not Null")
     void nuNullTest() {
         given(ioService.readStringWithPromptLocalized(ArgumentMatchers.eq("StudentService.input.first.name"))).willReturn("VASYA");
         given(ioService.readStringWithPromptLocalized(ArgumentMatchers.eq("StudentService.input.last.name"))).willReturn("PUPKIN");
+
         Assertions.assertNotNull(studentService.determineCurrentStudent());
     }
 
@@ -39,6 +33,7 @@ public class StudentServiceTest {
     void positiveTest() {
         given(ioService.readStringWithPromptLocalized(ArgumentMatchers.eq("StudentService.input.first.name"))).willReturn("VASYA");
         given(ioService.readStringWithPromptLocalized(ArgumentMatchers.eq("StudentService.input.last.name"))).willReturn("PUPKIN");
+
         Student expectedStudent = new Student("VASYA", "PUPKIN");
         Assertions.assertEquals(expectedStudent, studentService.determineCurrentStudent());
     }
@@ -48,10 +43,10 @@ public class StudentServiceTest {
     void negativeTest() {
         given(ioService.readStringWithPromptLocalized(ArgumentMatchers.eq("StudentService.input.first.name"))).willReturn("VASYA");
         given(ioService.readStringWithPromptLocalized(ArgumentMatchers.eq("StudentService.input.last.name"))).willReturn("PUPKIN");
+
         Student expectedStudent = new Student("SANYA", "PUPKIN");
         Assertions.assertNotEquals(expectedStudent, studentService.determineCurrentStudent());
     }
-
 
     @Test
     @DisplayName("[Positive Test] Check method determineCurrentStudent with null values from ioService")
@@ -64,5 +59,4 @@ public class StudentServiceTest {
         Assertions.assertNotNull(actual);
         Assertions.assertEquals(expectedStudent, actual);
     }
-
 }

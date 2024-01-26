@@ -1,4 +1,7 @@
 spring:
+  shell:
+    interactive:
+      enabled: false
   application:
     title: otus-homework
     version: hw-04
@@ -12,7 +15,7 @@ spring:
 test:
   maxAttemps: 10
   rightAnswersCountToPass: 3
-#  locale: en_US
+  #  locale: en_US
   locale: ru_RU
   fileNameByLocaleTag:
     ru_RU: questions_ru.csv

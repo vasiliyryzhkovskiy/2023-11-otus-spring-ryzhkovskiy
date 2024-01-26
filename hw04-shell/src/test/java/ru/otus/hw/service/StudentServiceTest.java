@@ -11,6 +11,8 @@ import ru.otus.hw.domain.Student;
 
 import static org.mockito.BDDMockito.given;
 
+
+@DisplayName("Тестирование сервиса StudentService")
 @SpringBootTest(classes = StudentServiceImpl.class)
 public class StudentServiceTest {
     @MockBean

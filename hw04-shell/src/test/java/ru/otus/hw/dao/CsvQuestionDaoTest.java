@@ -20,7 +20,7 @@ class CsvQuestionDaoTest {
     private TestFileNameProvider fileNameProvider;
 
     @Autowired
-    CsvQuestionDao dao;
+    private CsvQuestionDao dao;
 
     @Test
     @DisplayName("Check method FindAll")

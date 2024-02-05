@@ -10,11 +10,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "genres")
-public class Genre {
+public class Comment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "text")
+    private String text;
+
+    // Указывает на связь между таблицами "многие к одному"
+    @ManyToOne(targetEntity = Book.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "book_id")
+    private Book book;
 }

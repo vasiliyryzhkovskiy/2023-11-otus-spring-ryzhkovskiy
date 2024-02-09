@@ -6,7 +6,6 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.models.Comment;
 
 import java.util.List;
@@ -32,7 +31,6 @@ public class JpaCommentRepository implements CommentRepository {
     }
 
     @Override
-    @Transactional
     public Comment save(Comment comment) {
         if (comment.getId() == 0) {
             entityManager.persist(comment);
@@ -42,12 +40,8 @@ public class JpaCommentRepository implements CommentRepository {
     }
 
     @Override
-    @Transactional
     public void deleteById(long id) {
-        Query query = entityManager.createQuery("delete " +
-                "from Comment c " +
-                "where c.id = :id");
-        query.setParameter("id", id);
-        query.executeUpdate();
+        Optional<Comment> comment = findById(id);
+        comment.ifPresent(entityManager::remove);
     }
 }

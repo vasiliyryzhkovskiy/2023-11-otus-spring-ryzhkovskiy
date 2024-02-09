@@ -44,8 +44,31 @@ public class BookRepositoryTest {
         Book book = repository.save(new Book(0, "BookTitle_New", author, genre));
 
         Assertions.assertAll("Проверка корректности добавления книги", () -> {
-            Assertions.assertEquals(testEntityManager.find(Book.class, book.getId()), book);
-            Assertions.assertEquals(testEntityManager.find(Book.class, book.getId()).getTitle(), book.getTitle());
+            Book findBook = testEntityManager.find(Book.class, book.getId());
+            Assertions.assertEquals(findBook, book);
+            Assertions.assertEquals(findBook.getTitle(), book.getTitle());
         });
     }
+
+    @Test
+    @DisplayName("Удаление новой книги")
+    void deleteNewBook() {
+        Author author = testEntityManager.find(Author.class, 1);
+        Genre genre = testEntityManager.find(Genre.class, 1);
+        Book book = repository.save(new Book(0, "BookTitle_New", author, genre));
+
+        Assertions.assertAll("Проверка корректности добавления книги", () -> {
+            Book findBook = testEntityManager.find(Book.class, book.getId());
+            Assertions.assertEquals(findBook, book);
+            Assertions.assertEquals(findBook.getTitle(), book.getTitle());
+        });
+
+        repository.deleteById(book.getId());
+
+        Assertions.assertAll("Проверка корректности удаления книги", () -> {
+            Book findBook = testEntityManager.find(Book.class, book.getId());
+            Assertions.assertNull(findBook);
+        });
+    }
+
 }

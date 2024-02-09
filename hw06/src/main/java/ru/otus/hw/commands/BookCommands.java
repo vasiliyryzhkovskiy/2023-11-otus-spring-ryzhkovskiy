@@ -58,7 +58,7 @@ public class BookCommands {
 
     /**
      * Удаление книги
-     * Пример команды bookdel 5
+     * Пример команды bookdel 4
      */
     @ShellMethod(value = "Delete book by id", key = "bookdel")
     public void deleteBook(long id) {

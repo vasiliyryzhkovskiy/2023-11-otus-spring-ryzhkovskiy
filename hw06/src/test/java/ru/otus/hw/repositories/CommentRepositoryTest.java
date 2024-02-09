@@ -28,8 +28,29 @@ public class CommentRepositoryTest {
         Comment comment = repository.save(new Comment(0, "Comment_1_3", book));
 
         Assertions.assertAll("Проверка корректности добавления комментария", () -> {
-            Assertions.assertEquals(testEntityManager.find(Comment.class, comment.getId()), comment);
-            Assertions.assertEquals(testEntityManager.find(Comment.class, comment.getId()).getText(), comment.getText());
+            Comment find = testEntityManager.find(Comment.class, comment.getId());
+            Assertions.assertEquals(find, comment);
+            Assertions.assertEquals(find.getText(), comment.getText());
+        });
+    }
+
+    @Test
+    @DisplayName("Удаление нового комментария")
+    void deleteNewComment() {
+        Book book = testEntityManager.find(Book.class, 1);
+        Comment comment = repository.save(new Comment(0, "Comment_1_3", book));
+
+        Assertions.assertAll("Проверка корректности добавления комментария", () -> {
+            Comment find = testEntityManager.find(Comment.class, comment.getId());
+            Assertions.assertEquals(find, comment);
+            Assertions.assertEquals(find.getText(), comment.getText());
+        });
+
+        repository.deleteById(comment.getId());
+
+        Assertions.assertAll("Проверка корректности удаления книги", () -> {
+            Comment find = testEntityManager.find(Comment.class, comment.getId());
+            Assertions.assertNull(find);
         });
     }
 }

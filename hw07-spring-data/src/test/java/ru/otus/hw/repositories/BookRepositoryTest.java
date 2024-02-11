@@ -6,20 +6,20 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.context.annotation.Import;
+import ru.otus.hw.exceptions.EntityNotFoundException;
 import ru.otus.hw.models.Author;
 import ru.otus.hw.models.Book;
 import ru.otus.hw.models.Genre;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.LongStream;
 
 @DisplayName("Тестирование репозитория книг")
 @DataJpaTest(showSql = false)
-@Import(JpaBookRepository.class)
 public class BookRepositoryTest {
     @Autowired
-    private JpaBookRepository repository;
+    private BookRepository repository;
 
     @Autowired
     private TestEntityManager testEntityManager;
@@ -64,11 +64,23 @@ public class BookRepositoryTest {
         });
 
         repository.deleteById(book.getId());
-
         Assertions.assertAll("Проверка корректности удаления книги", () -> {
             Book findBook = testEntityManager.find(Book.class, book.getId());
             Assertions.assertNull(findBook);
         });
     }
 
+    @Test
+    @DisplayName("Поиск первой книги")
+    void findFirstBook() {
+        Optional<Book> repositoryBook = repository.findById(1L);
+        Book expectedBook = testEntityManager.find(Book.class, 1L);
+
+        repositoryBook.ifPresentOrElse(book -> Assertions.assertAll("Проверка корректности поиска книги", () -> {
+            Assertions.assertEquals(book.getId(), expectedBook.getId(), "Проверка ID книги");
+            Assertions.assertEquals(book.getTitle(), expectedBook.getTitle(), "Проверка имени книги");
+        }), () -> {
+            throw new EntityNotFoundException("Такая книга отстутствует");
+        });
+    }
 }

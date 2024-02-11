@@ -6,17 +6,18 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.context.annotation.Import;
+import ru.otus.hw.exceptions.EntityNotFoundException;
 import ru.otus.hw.models.Book;
 import ru.otus.hw.models.Comment;
 
+import java.util.Optional;
+
 @DisplayName("Тестирование репозитория комментариев")
 @DataJpaTest(showSql = false)
-@Import(JpaCommentRepository.class)
 public class CommentRepositoryTest {
 
     @Autowired
-    private JpaCommentRepository repository;
+    private CommentRepository repository;
 
     @Autowired
     private TestEntityManager testEntityManager;
@@ -53,4 +54,20 @@ public class CommentRepositoryTest {
             Assertions.assertNull(find);
         });
     }
+
+    @Test
+    @DisplayName("Поиск первого комментария")
+    void findFirstComment() {
+        Optional<Comment> repositoryComment = repository.findById(1L);
+        Comment expectedComment = testEntityManager.find(Comment.class, 1L);
+
+        repositoryComment.ifPresentOrElse(comment -> Assertions.assertAll("Проверка корректности поиска комментария", () -> {
+            Assertions.assertEquals(comment.getId(), expectedComment.getId(), "Проверка ID комментария");
+            Assertions.assertEquals(comment.getText(), expectedComment.getText(), "Проверка текста комментария");
+        }), () -> {
+            throw new EntityNotFoundException("Такой комментарий отстутствует");
+        });
+    }
+
+
 }

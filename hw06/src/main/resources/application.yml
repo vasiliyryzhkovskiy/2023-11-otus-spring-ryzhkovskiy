@@ -1,4 +1,7 @@
 spring:
+  application:
+    title: otus-homework
+    version: hw06-orm
   datasource:
     url: jdbc:h2:mem:maindb
   sql:

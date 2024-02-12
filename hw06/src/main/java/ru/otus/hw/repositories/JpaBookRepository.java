@@ -7,7 +7,6 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.models.Book;
 
 import java.util.List;
@@ -45,7 +44,6 @@ public class JpaBookRepository implements BookRepository {
     }
 
     @Override
-    @Transactional
     public void deleteById(long id) {
         Optional<Book> book = findById(id);
         book.ifPresent(entityManager::remove);

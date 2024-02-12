@@ -31,7 +31,16 @@ public class AuthorRepositoryTest {
 
         Assertions.assertAll("Проверка корректности поиска авторов", () -> {
             Assertions.assertEquals(repositoryAuthors.size(), expectedAuthors.size(), "Проверка количества авторов");
-            Assertions.assertTrue(repositoryAuthors.containsAll(expectedAuthors));
+
+            repositoryAuthors.forEach(author -> {
+                Assertions.assertEquals(expectedAuthors
+                                .stream()
+                                .filter(author1 -> author.getId() == author1.getId())
+                                .toList()
+                                .getFirst()
+                                .getFullName(),
+                        author.getFullName());
+            });
         });
     }
 }

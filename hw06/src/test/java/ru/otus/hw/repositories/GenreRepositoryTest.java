@@ -30,7 +30,16 @@ public class GenreRepositoryTest {
 
         Assertions.assertAll("Проверка корректности поиска жанров", () -> {
             Assertions.assertEquals(repositoryGenres.size(), expectedGenres.size(), "Проверка количества жанров");
-            Assertions.assertTrue(repositoryGenres.containsAll(expectedGenres));
+
+            repositoryGenres.forEach(genre -> {
+                Assertions.assertEquals(expectedGenres
+                                .stream()
+                                .filter(genre1 -> genre.getId() == genre1.getId())
+                                .toList()
+                                .getFirst()
+                                .getName(),
+                        genre.getName());
+            });
         });
     }
 }

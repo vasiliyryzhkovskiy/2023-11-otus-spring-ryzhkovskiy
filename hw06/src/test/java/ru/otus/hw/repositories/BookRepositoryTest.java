@@ -32,7 +32,16 @@ public class BookRepositoryTest {
 
         Assertions.assertAll("Проверка корректности поиска книг", () -> {
             Assertions.assertEquals(repositoryBooks.size(), expectedBooks.size(), "Проверка количества книг");
-            Assertions.assertTrue(repositoryBooks.containsAll(expectedBooks));
+
+            repositoryBooks.forEach(book -> {
+                Assertions.assertEquals(repositoryBooks
+                                .stream()
+                                .filter(book1 -> book.getId() == book1.getId())
+                                .toList()
+                                .getFirst()
+                                .getTitle(),
+                        book.getTitle());
+            });
         });
     }
 

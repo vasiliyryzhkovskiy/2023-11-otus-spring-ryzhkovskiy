@@ -26,11 +26,13 @@ public class BookServiceImpl implements BookService {
     private final GenreRepository genreRepository;
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<BookDto> findById(long id) {
         return bookRepository.findById(id).map(BookDto::new);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<BookDto> findAll() {
         return bookRepository.findAll().stream().map(BookDto::new).toList();
     }

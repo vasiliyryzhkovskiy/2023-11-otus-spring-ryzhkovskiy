@@ -15,7 +15,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class JpaAuthorRepository implements AuthorRepository {
 
-    @PersistenceContext(type = PersistenceContextType.EXTENDED)
+    @PersistenceContext(type = PersistenceContextType.TRANSACTION)
     private final EntityManager entityManager;
 
     @Override

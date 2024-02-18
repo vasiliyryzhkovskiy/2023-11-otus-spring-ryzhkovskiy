@@ -17,6 +17,12 @@ public class CommentCommands {
 
     private final CommentConverter commentConverter;
 
+    /**
+     * Поиск комментария по идентификатору
+     * Пример команды
+     * commentid 1
+     * где 1 это идентификатор
+     */
     @ShellMethod(value = "Find comment by id", key = "commentid")
     public String findCommentById(long id) {
 

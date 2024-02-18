@@ -4,6 +4,7 @@ package ru.otus.hw.repositories;
 import jakarta.persistence.EntityGraph;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.PersistenceContextType;
 import jakarta.persistence.TypedQuery;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -17,7 +18,7 @@ import static org.springframework.data.jpa.repository.EntityGraph.EntityGraphTyp
 @Repository
 @AllArgsConstructor
 public class JpaBookRepository implements BookRepository {
-    @PersistenceContext
+    @PersistenceContext(type = PersistenceContextType.TRANSACTION)
     private final EntityManager entityManager;
 
     @Override

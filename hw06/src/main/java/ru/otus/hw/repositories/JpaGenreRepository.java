@@ -14,7 +14,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class JpaGenreRepository implements GenreRepository {
 
-    @PersistenceContext(type = PersistenceContextType.EXTENDED)
+    @PersistenceContext(type = PersistenceContextType.TRANSACTION)
     private final EntityManager entityManager;
 
     @Override

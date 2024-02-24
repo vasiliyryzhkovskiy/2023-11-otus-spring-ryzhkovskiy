@@ -1,0 +1,16 @@
+spring:
+  application:
+    title: otus-homework
+    version: hw07-spring-data
+  datasource:
+    url: jdbc:h2:mem:testdb
+  sql:
+    init:
+      mode: always
+      data-locations: data.sql
+      schema-locations: schema.sql
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+      show-sql: false

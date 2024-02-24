@@ -29,6 +29,6 @@ public class Comment {
 
     // Указывает на связь между таблицами "многие к одному"
     @ManyToOne(targetEntity = Book.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "book_id")
+    @JoinColumn(name = "book_id", referencedColumnName = "id")
     private Book book;
 }

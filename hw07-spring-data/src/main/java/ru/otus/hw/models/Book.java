@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedAttributeNode;
 import jakarta.persistence.NamedEntityGraph;
 import jakarta.persistence.OneToOne;
@@ -30,12 +31,13 @@ public class Book {
     @Column(name = "title")
     private String title;
 
-    // Указывает на связь между таблицами "один к одному"
-    @OneToOne(targetEntity = Author.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "author_id")
+    // Указывает на связь между таблицами "многие к одному"
+    @ManyToOne(targetEntity = Author.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id", referencedColumnName = "id")
     private Author author;
 
-    @OneToOne(targetEntity = Genre.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "genre_id")
+    // Указывает на связь между таблицами "многие к одному"
+    @ManyToOne(targetEntity = Genre.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "genre_id", referencedColumnName = "id")
     private Genre genre;
 }

@@ -1,25 +1,27 @@
 package ru.otus.hw.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "genres")
+@Data
+@Document(collection = "genres")
 public class Genre {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Стратегия генерации идентификаторов
-    private long id;
 
-    @Column(name = "name")
+    @Id
+    private String id;
+
     private String name;
+
+    public Genre(String name) {
+        this.name = name;
+    }
 }

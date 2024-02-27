@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import ru.otus.hw.converters.AuthorConverter;
-import ru.otus.hw.services.AuthorService;
+import ru.otus.hw.services.interfaces.AuthorService;
 
 import java.util.stream.Collectors;
 

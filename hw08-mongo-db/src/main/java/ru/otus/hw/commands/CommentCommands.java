@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import ru.otus.hw.converters.CommentConverter;
-import ru.otus.hw.dto.CommentDto;
-import ru.otus.hw.services.CommentService;
+import ru.otus.hw.models.Comment;
+import ru.otus.hw.services.interfaces.CommentService;
 
 import java.util.stream.Collectors;
 
@@ -17,60 +17,65 @@ public class CommentCommands {
 
     private final CommentConverter commentConverter;
 
+    /**
+     * Получить комментарий по id
+     * Пример команды
+     * commentid id
+     * где id это идентификатор КОММЕНТАРИЯ
+     */
     @ShellMethod(value = "Find comment by id", key = "commentid")
-    public String findCommentById(long id) {
-
-        return commentService.findById(id).stream()
-                .map(commentConverter::commentToString)
-                .collect(Collectors.joining("," + System.lineSeparator()));
+    public String findCommentById(String id) {
+        return commentService.findById(id).toString();
+//                .map(commentConverter::commentToString)
+//                .collect(Collectors.joining("," + System.lineSeparator()));
     }
 
     /**
      * Добавление комментария
      * Пример команды
-     * commentinsert newComment_1 1
-     * commentinsert newComment_2 2
-     * commentinsert newComment_3 3
-     * где 1 это идентификатор КНИГИ
+     * commentinsert newComment bookId
+     * где bookId это идентификатор КНИГИ
      */
     @ShellMethod(value = "Insert new comment", key = "commentinsert")
-    public String insertComment(String text, long bookId) {
-        CommentDto comment = commentService.create(text, bookId);
+    public String insertComment(String text, String bookId) {
+        Comment comment = commentService.insert(text, bookId);
         return commentConverter.commentToString(comment);
     }
 
     /**
      * Обновления комментария
-     * Пример команды commentup 1 updateComment
-     * где 1 это идентификатор КОММЕНТАРИЯ
+     * Пример команды
+     * commentup id updateComment bookId
+     * где id это идентификатор КОММЕНТАРИЯ
+     * где bookId это идентификатор КНИГИ
      */
     @ShellMethod(value = "Update comment by id with text", key = "commentup")
-    public String updateComment(long id, String text) {
-        CommentDto comment = commentService.update(id, text);
+    public String updateComment(String id, String text, String bookId) {
+        Comment comment = commentService.update(id, text, bookId);
         return commentConverter.commentToString(comment);
     }
 
+    /**
+     * Комментарии по ИД книги
+     * Пример команды
+     * commentbybookid id
+     * где id это идентификатор КНИГИ
+     */
+    @ShellMethod(value = "Find comment by book id", key = "commentbybookid")
+    public String findCommentByBookId(String id) {
+        return commentService.findAllByBookId(id).stream()
+                .map(commentConverter::commentToString)
+                .collect(Collectors.joining("," + System.lineSeparator()));
+    }
 
     /**
      * Удаление комментария
-     * Пример команды commentdel 1
-     * где 1 это идентификатор КОММЕНТАРИЯ
+     * Пример команды
+     * commentdel id
+     * где id это идентификатор КОММЕНТАРИЯ
      */
     @ShellMethod(value = "Delete comment by id", key = "commentdel")
-    public void deleteComment(long id) {
+    public void deleteComment(String id) {
         commentService.deleteById(id);
-    }
-
-
-    /**
-     * Комментарии по ИД книги
-     * Пример команды commentbybookid 1
-     * где 1 это идентификатор КНИГИ
-     */
-    @ShellMethod(value = "Find comment by book id", key = "commentbybookid")
-    public String findCommentByBookId(long id) {
-        return commentService.findByBookId(id).stream()
-                .map(commentConverter::commentToString)
-                .collect(Collectors.joining("," + System.lineSeparator()));
     }
 }

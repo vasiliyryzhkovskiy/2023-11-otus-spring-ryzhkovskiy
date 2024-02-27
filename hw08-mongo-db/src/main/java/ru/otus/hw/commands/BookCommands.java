@@ -5,19 +5,22 @@ import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import ru.otus.hw.converters.BookConverter;
 import ru.otus.hw.dto.BookDto;
-import ru.otus.hw.services.BookService;
+import ru.otus.hw.services.interfaces.BookService;
 
 import java.util.stream.Collectors;
-
 
 @RequiredArgsConstructor
 @ShellComponent
 public class BookCommands {
-
     private final BookService bookService;
 
     private final BookConverter bookConverter;
 
+    /**
+     * Получение ВСЕХ книг
+     * Пример команды
+     * booksall
+     */
     @ShellMethod(value = "Find all books", key = "booksall")
     public String findAllBooks() {
         return bookService.findAll().stream()
@@ -25,43 +28,45 @@ public class BookCommands {
                 .collect(Collectors.joining("," + System.lineSeparator()));
     }
 
+    /**
+     * Получение книги по id
+     * Пример команды
+     * bookid id
+     */
     @ShellMethod(value = "Find book by id", key = "bookid")
-    public String findBookById(long id) {
-        return bookService.findById(id)
-                .map(bookConverter::bookToString)
-                .orElse("Book with id %d not found".formatted(id));
+    public String findBookById(String id) {
+        return bookConverter.bookToString(bookService.findById(id));
     }
 
     /**
      * Добавление книги
-     * Пример команды bookinsert newBook 1 1
-     * Пример команды bookinsert newBook 2 2
-     * Пример команды bookinsert newBook 2 3
-     * Пример команды bookinsert newBook 3 2
-     * Пример команды bookinsert newBook 3 3
+     * Пример команды
+     * bookinsert newBook authorId genreId
      */
     @ShellMethod(value = "Insert new book", key = "bookinsert")
-    public String insertBook(String title, long authorId, long genreId) {
+    public String insertBook(String title, String authorId, String genreId) {
         BookDto book = bookService.insert(title, authorId, genreId);
         return bookConverter.bookToString(book);
     }
 
     /**
      * Изменение книги
-     * Пример команды bookup 4 editedBook 1 3
+     * Пример команды
+     * bookup id editedBook authorId genreId
      */
     @ShellMethod(value = "Update book", key = "bookup")
-    public String updateBook(long id, String title, long authorId, long genreId) {
+    public String updateBook(String id, String title, String authorId, String genreId) {
         BookDto book = bookService.update(id, title, authorId, genreId);
         return bookConverter.bookToString(book);
     }
 
     /**
      * Удаление книги
-     * Пример команды bookdel 4
+     * Пример команды
+     * bookdel id
      */
     @ShellMethod(value = "Delete book by id", key = "bookdel")
-    public void deleteBook(long id) {
+    public void deleteBook(String id) {
         bookService.deleteById(id);
     }
 }

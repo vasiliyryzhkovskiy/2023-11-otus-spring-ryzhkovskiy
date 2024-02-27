@@ -10,63 +10,68 @@ import ru.otus.hw.models.Book;
 import ru.otus.hw.models.Genre;
 import ru.otus.hw.repositories.AuthorRepository;
 import ru.otus.hw.repositories.BookRepository;
+import ru.otus.hw.repositories.CommentRepository;
 import ru.otus.hw.repositories.GenreRepository;
+import ru.otus.hw.services.interfaces.BookService;
 
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
 public class BookServiceImpl implements BookService {
 
-    private final BookRepository bookRepository;
-
     private final AuthorRepository authorRepository;
 
     private final GenreRepository genreRepository;
 
+    private final BookRepository bookRepository;
+
+    private final CommentRepository commentRepository;
+
+    @Transactional(readOnly = true)
     @Override
-    public Optional<BookDto> findById(long id) {
-        return bookRepository.findById(id).map(BookDto::new);
+    public BookDto findById(String id) {
+        return bookRepository.findById(id)
+                .map(BookDto::new)
+                .orElseThrow(() -> new EntityNotFoundException("Book with id %s not found".formatted(id)));
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<BookDto> findAll() {
-        return bookRepository.findAll().stream().map(BookDto::new).toList();
+        return bookRepository.findAll().stream()
+                .map(BookDto::new)
+                .toList();
     }
 
     @Override
     @Transactional
-    public BookDto insert(String title, long authorId, long genreId) {
-        Author author = authorRepository.findById(authorId)
-                .orElseThrow(() -> new EntityNotFoundException("Author with id %d not found".formatted(authorId)));
-        Genre genre = genreRepository.findById(genreId)
-                .orElseThrow(() -> new EntityNotFoundException("Genre with id %d not found".formatted(genreId)));
-        Book book = new Book(0, title, author, genre);
-        Book savedBook = bookRepository.save(book);
-        return new BookDto(savedBook);
+    public BookDto insert(String title, String authorId, String genreId) {
+        return new BookDto(save(null, title, authorId, genreId));
     }
 
     @Override
     @Transactional
-    public BookDto update(long id, String title, long authorId, long genreId) {
-        Book book = bookRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Book with id %d not found".formatted(id)));
-        Author author = authorRepository.findById(authorId)
-                .orElseThrow(() -> new EntityNotFoundException("Author with id %d not found".formatted(authorId)));
-        Genre genre = genreRepository.findById(genreId)
-                .orElseThrow(() -> new EntityNotFoundException("Genre with id %d not found".formatted(genreId)));
-        book.setTitle(title);
-        book.setAuthor(author);
-        book.setGenre(genre);
-        Book updatedBook = bookRepository.save(book);
-        return new BookDto(updatedBook);
+    public BookDto update(String id, String title, String authorId, String genreId) {
+        return new BookDto(save(id, title, authorId, genreId));
     }
 
     @Override
     @Transactional
-    public void deleteById(long id) {
+    public void deleteById(String id) {
+        findById(id);
         bookRepository.deleteById(id);
+        commentRepository.deleteByBookId(id);
+    }
+
+    private Book save(String id, String title, String authorId, String genreId) {
+        Author author = authorRepository.findById(authorId)
+                .orElseThrow(() -> new EntityNotFoundException("Author with id %s not found".formatted(authorId)));
+        Genre genre = genreRepository.findById(genreId)
+                .orElseThrow(() -> new EntityNotFoundException("Genre with id %s not found".formatted(genreId)));
+        ;
+        Book book = new Book(id, title, author, genre);
+        return bookRepository.save(book);
     }
 
 }

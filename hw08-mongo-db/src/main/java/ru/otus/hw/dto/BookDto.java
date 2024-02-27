@@ -1,24 +1,24 @@
 package ru.otus.hw.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import ru.otus.hw.models.Author;
 import ru.otus.hw.models.Book;
+import ru.otus.hw.models.Genre;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class BookDto {
-    private long id;
+    private String id;
 
     private String title;
 
-    private AuthorDto author;
+    private Author author;
 
-    private GenreDto genre;
-
+    private Genre genre;
 
     public BookDto(Book book) {
-        this(book.getId(), book.getTitle(), new AuthorDto(book.getAuthor()), new GenreDto(book.getGenre()));
+        this.id = book.getId();
+        this.title = book.getTitle();
+        this.author = book.getAuthor();
+        this.genre = book.getGenre();
     }
 }

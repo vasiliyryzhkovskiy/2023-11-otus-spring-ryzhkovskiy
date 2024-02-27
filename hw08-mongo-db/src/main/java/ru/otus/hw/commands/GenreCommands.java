@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import ru.otus.hw.converters.GenreConverter;
-import ru.otus.hw.services.GenreService;
+import ru.otus.hw.services.interfaces.GenreService;
 
 import java.util.stream.Collectors;
 
@@ -18,7 +18,9 @@ public class GenreCommands {
 
     @ShellMethod(value = "Find all genres", key = "genresall")
     public String findAllGenres() {
-        return genreService.findAll().stream()
+        return genreService
+                .findAll()
+                .stream()
                 .map(genreConverter::genreToString)
                 .collect(Collectors.joining("," + System.lineSeparator()));
     }

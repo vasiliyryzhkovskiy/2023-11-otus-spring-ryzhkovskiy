@@ -4,30 +4,30 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import ru.otus.hw.exceptions.EntityNotFoundException;
 import ru.otus.hw.models.Author;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.LongStream;
 
 @DisplayName("Тестирование репозитория авторов")
-@DataJpaTest(showSql = false)
+@DataMongoTest
 public class AuthorRepositoryTest {
 
     @Autowired
     private AuthorRepository repository;
 
-    @Autowired
-    private TestEntityManager testEntityManager;
+    private final List<Author> listAuthors = List.of(
+            new Author("id_1", "Author_1"),
+            new Author("id_2", "Author_2"),
+            new Author("id_3", "Author_3"));
 
     @Test
     @DisplayName("Поиск всех авторов")
     void findAllAuthors() {
         List<Author> repositoryAuthors = repository.findAll();
-        List<Author> expectedAuthors = LongStream.range(1, 4).mapToObj(i -> testEntityManager.find(Author.class, i)).toList();
+        List<Author> expectedAuthors = listAuthors;
 
         Assertions.assertAll("Проверка корректности поиска авторов", () -> {
             Assertions.assertEquals(repositoryAuthors.size(), expectedAuthors.size(), "Проверка количества авторов");
@@ -38,8 +38,8 @@ public class AuthorRepositoryTest {
     @Test
     @DisplayName("Поиск первого автора")
     void findFirstAuthor() {
-        Optional<Author> repositoryAuthor = repository.findById(1L);
-        Author expectedAuthor = testEntityManager.find(Author.class, 1L);
+        Optional<Author> repositoryAuthor = repository.findById(listAuthors.getFirst().getId());
+        Author expectedAuthor = listAuthors.getFirst();
 
         repositoryAuthor.ifPresentOrElse(author -> Assertions.assertAll("Проверка корректности поиска автора", () -> {
             Assertions.assertEquals(author.getId(), expectedAuthor.getId(), "Проверка ID автора");
